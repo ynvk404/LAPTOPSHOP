@@ -39,7 +39,7 @@ composer install
 Tạo file .env tại thư mục gốc dự án:
 
 env
-Copy code
+
 SUPABASE_URL=https://<project-id>.supabase.co
 SUPABASE_KEY=<anon-or-service-role-key>
 🔑 Lấy URL và Key tại Project Settings → API trong Supabase.
