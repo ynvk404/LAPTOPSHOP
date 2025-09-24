@@ -47,17 +47,7 @@ SUPABASE_KEY=<anon-or-service-role-key>
 4. Import cơ sở dữ liệu
 Mở phpMyAdmin hoặc MySQL CLI, sau đó chạy file database.sql (có sẵn trong repo).
 
-File này sẽ tạo CSDL laptopshop với các bảng:
-
-category
-
-product
-
-users
-
-user_tokens
-
-feedback
+File này sẽ tạo CSDL laptopshop với các bảng: category, product. users, user_tokens, feedback
 
 5. Cấu hình Supabase
 Vào Authentication → Providers → Email → bật Enable email signup
