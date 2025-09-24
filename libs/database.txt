@@ -1,0 +1,113 @@
+-- ================================
+-- Tạo mới CSDL
+-- ================================
+DROP DATABASE IF EXISTS laptopshop;
+CREATE DATABASE laptopshop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE laptopshop;
+
+-- ================================
+-- Bảng category (danh mục sản phẩm)
+-- ================================
+CREATE TABLE category (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL
+);
+
+-- ================================
+-- Bảng product (sản phẩm)
+-- ================================
+CREATE TABLE product (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  price DECIMAL(15,2) NOT NULL,
+  image VARCHAR(255),
+  description TEXT,
+  category_id INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  -- Liên kết category_id tới bảng category
+  CONSTRAINT fk_product_category
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
+);
+
+-- ================================
+-- Thêm dữ liệu mẫu vào bảng category và product
+-- ================================
+INSERT INTO category (name) VALUES
+('Laptop DELL'),
+('Laptop HP-Compaq'),
+('Laptop SONY VAIO'),
+('Laptop LENOVO'),
+('Laptop ACER'),
+('Laptop ASUS'),
+('Laptop SAMSUNG'),
+('Laptop MACBOOK'),
+('Laptop NETBook');
+
+-- (Các lệnh INSERT sản phẩm bạn đã viết, giữ nguyên ở đây)
+
+-- ================================
+-- Bảng users (người dùng hệ thống)
+-- ================================
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,       -- tên đăng nhập
+  password VARCHAR(255) NOT NULL,             -- mật khẩu đã hash
+  email VARCHAR(150) NOT NULL UNIQUE,         -- email duy nhất
+  fullname VARCHAR(100),                      -- họ tên đầy đủ
+  avatar VARCHAR(255) DEFAULT 'images/default-avatar.png', -- ảnh đại diện
+  role ENUM('user','admin') DEFAULT 'user',   -- phân quyền
+  is_active TINYINT(1) DEFAULT 1,             -- trạng thái kích hoạt
+  last_login TIMESTAMP NULL DEFAULT NULL,     -- lần đăng nhập gần nhất
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  supabase_id VARCHAR(255) DEFAULT NULL       -- ID từ Supabase
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ================================
+-- Thêm tài khoản mẫu
+-- ================================
+INSERT INTO users (username, password, email, fullname, role, avatar) 
+VALUES (
+  'admin', 
+  '$2y$10$eImiTXuWVxfM37uY4JANjQe8t8J9u7e4aT1Zc5R2n1F9Xj28pGQ9i', -- mật khẩu hash (ví dụ)
+  'admin@laptopshop.vn',
+  'Quản trị viên',
+  'admin',
+  'images/admin.png'
+);
+
+INSERT INTO users (username, password, email, fullname, role, avatar) 
+VALUES (
+  'khai123', 
+  '$2y$10$abcdefghijklmnoPQRSTUVWXYZ1234567890abcdefghijklmno', -- mật khẩu hash (ví dụ)
+  'khai@example.com',
+  'Nguyễn Văn Khải',
+  'user',
+  'images/users/khai.jpg'
+);
+
+-- ================================
+-- Bảng user_tokens (token ghi nhớ đăng nhập)
+-- ================================
+CREATE TABLE user_tokens (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,                         -- liên kết tới bảng users
+  token_hash VARCHAR(255) NOT NULL,             -- hash của token
+  expires DATETIME NOT NULL,                    -- hạn sử dụng token
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ================================
+-- Bảng feedback (góp ý/ phản hồi người dùng)
+-- ================================
+CREATE TABLE feedback (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,                   -- tên người gửi
+  email VARCHAR(150) NOT NULL,                  -- email người gửi
+  message TEXT NOT NULL,                        -- nội dung phản hồi
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  ip_address VARCHAR(45),                       -- địa chỉ IP (IPv4 hoặc IPv6)
+  user_id INT DEFAULT NULL,                     -- nếu người gửi có tài khoản
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
