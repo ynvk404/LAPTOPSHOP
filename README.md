@@ -133,4 +133,5 @@ web-laptop/
 ├── profile.php                   # Hồ sơ cá nhân
 ├── sendfeedback.php              # Gửi feedback
 ├── tuyendung.php                 # Tuyển dụng
-© 2025 youngnvk - LaptopShop.vn. All rights reserved.
+```
+###© 2025 youngnvk - LaptopShop.vn. All rights reserved.
