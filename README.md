@@ -38,7 +38,7 @@ composer install
 3. Tạo file môi trường .env
 Tạo file .env tại thư mục gốc dự án:
 
-env
+Nội dung:
 
 SUPABASE_URL=https://<project-id>.supabase.co
 SUPABASE_KEY=<anon-or-service-role-key>
