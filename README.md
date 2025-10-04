@@ -63,21 +63,14 @@ Mở trình duyệt và truy cập:
 👉 http://localhost/web-laptop/
 
 👤 Tài khoản mẫu
-Admin
-
-makefile
-Copy code
 username: admin
 password: 12345678
 User
 
-makefile
-Copy code
 username: khai123
 password: 12345678
 📂 Cấu trúc thư mục
-bash
-Copy code
+
 web-laptop/
 ├── config/
 │   └── config_session.php       # Cấu hình session, bảo mật
