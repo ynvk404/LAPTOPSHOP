@@ -32,8 +32,6 @@ Website bán laptop demo cơ bản, xây dựng bằng **PHP + MySQL** và tích
 git clone https://github.com/<your-username>/laptopshop.git
 cd laptopshop
 2. Cài đặt thư viện PHP
-bash
-Copy code
 composer install
 3. Tạo file môi trường .env
 Tạo file .env tại thư mục gốc dự án:
